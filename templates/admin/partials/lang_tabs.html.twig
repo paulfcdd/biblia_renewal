@@ -1,0 +1,28 @@
+<ul class="nav">
+    {% for language in get_languages_array() %}
+        <li class="nav-item">
+            <a class="nav-link"
+               href="{{ path('easyadmin', {
+                   'entity':  app.request.query.get('entity'),
+                   'action': app.request.query.get('action'),
+                   'menuIndex': app.request.query.get('menuIndex'),
+                   'submenuIndex': app.request.query.get('submenuIndex'),
+                   'sortField': app.request.query.get('sortField'),
+                   'sortDirection': app.request.query.get('sortDirection'),
+                   'id': app.request.query.get('id'),
+                   'code': language.urlSlugCode,
+               }) }}"
+                    {% if request_lang_code is null %}
+                        {% if language.urlSlugCode == app_default_locale %}
+                            style="font-weight: 600;text-decoration: underline;"
+                        {% endif %}
+                    {% else %}
+                        {% if language.urlSlugCode == request_lang_code %}
+                            style="font-weight: 600;text-decoration: underline;"
+                        {% endif %}-
+                    {% endif %}
+
+            >{{ language.nativeTitle }}</a>
+        </li>
+    {% endfor %}
+</ul>

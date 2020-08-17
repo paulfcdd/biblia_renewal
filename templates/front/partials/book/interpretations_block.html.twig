@@ -1,0 +1,8 @@
+<div class="interpret_wrap">
+    <div class="interpret_header">Толкования</div>
+    <ul class="interprets">
+        {% for chapter_interpretations in chapter.interpretations %}
+            <li><a href="{{ chapter_interpretations.interpretation.url ~ chapter_interpretations.url }}">{{ chapter_interpretations.interpretation.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

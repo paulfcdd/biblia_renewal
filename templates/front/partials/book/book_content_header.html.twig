@@ -1,0 +1,60 @@
+<div class="header">
+    <a title="Назад" onclick="history.back(); return false;" class="back"> </a>
+    <div class="breadcrumbs" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+            <span itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="https://azbyka.ru/" title="Главная" itemprop="item">
+                    <span itemprop="name">Азбука веры</span>
+                    <meta itemprop="position" content="0">
+                </a>
+            </span> »
+        <span itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="{{ path('front.index') ~ '?' ~ locale }}" title="Главная" itemprop="item">
+                    <span itemprop="name">Библия</span>
+                </a>
+                <meta itemprop="position" content="1"></span> »
+        <span itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <span itemprop="name">{{ book.title }}</span>
+                <meta itemprop="position" content="2">
+            </span>
+    </div>
+    <div class="cloud">
+        {{ get_book_by_lang(lang.id, locale) | raw }}
+    </div>
+
+    <div class="links">
+        <table>
+            <tbody>
+            <tr>
+                <td class="l">
+                    {% include 'front/partials/social_buttons.html.twig' %}
+                </td>
+                <td class="c"><img src="{{ asset('assets/img/long_dividers_mobile.svg') }}" alt=""></td>
+                <td class="r">
+                    {% include 'front/partials/book/search_form.html.twig' %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% include 'front/partials/book/next_chapter_button.html.twig' %}
+
+    <div class="nav-chapters-2">
+        <ul class="chapters">
+            {% set chapters = get_chapters_from_uri(app.request.requestUri) %}
+            {% set chaptersToHighlight = [] %}
+
+            {% if chapters | length > 1 %}
+                {% for i in chapters[0]..chapters[1] %}
+                    {% set chaptersToHighlight = chaptersToHighlight|merge([i]) %}
+                {% endfor %}
+            {% endif %}
+            {% for i in 1..chaptersCount %}
+                {% set link = generate_paginate_book_link(app.request.requestUri, i) %}
+                <li style="display: inline-block; text-align: center;">
+                    <a href="{{ link }}" class="chapter-href selected-{% if i == currentChapter or  i in chaptersToHighlight %}1{% else %}0{% endif %}">{{ i }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

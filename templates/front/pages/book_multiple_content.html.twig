@@ -1,0 +1,114 @@
+{% extends 'front/base.html.twig' %}
+
+{% block custom_css %}
+    <link href="{{ asset('assets/css/book-content-header-icons.css') }}" type="text/css" rel="stylesheet">
+    <link href="{{ asset('assets/css/book-audio-tray.css') }}" type="text/css" rel="stylesheet">
+{% endblock %}
+
+{% block header %}
+    {% include 'front/partials/book/book_content_header.html.twig' %}
+{% endblock %}
+
+{% block book_content_wrap %}
+    <div class="wrap book-layout book-bool_url_title">
+        {% block right_sidebar %}
+            {% include 'front/partials/book/right_sidebar.html.twig' %}
+        {% endblock %}
+        <div id="content" class="content">
+            <table id="tbl_content">
+                <tr>
+                    <td class="col-numbers"></td>
+
+                    {% for lang_code, translation in translations %}
+                        {% set verses = translation.verses %}
+                        {% if verses is not empty %}
+                            <td class="col-numbers">
+                                <div class="numbers-header" style="position: relative;">
+                                    &nbsp;</div>
+
+                                <ul id="list-numbers" class="numbers">
+                                    <li class="chapter-begin">&nbsp;</li>
+                                    {% for key, value in verses %}
+                                        {% set verseKey = key + 1 %}
+                                        <li id="line-0" class="number line-xx visible-0 fullview-1">
+                                            <div class="number-inner">
+                                                <div style="flex: 50%;">
+                                                    <a class="parallel_toggle" href="#"
+                                                       onclick="grid.ToggleParallel(1); return false;">
+                                                        <span class="masha_index masha_index1" rel="1"></span>||&nbsp;<span
+                                                            class="verse-fullnumber">{{ currentChapter }}:{{ value.code }}</span>
+                                                    </a>
+                                                    <span id="parallel-1" class="parallel">
+                                                    <i>см.</i>
+                                                        <a target="_blank" href="#">Исх.31:18</a>;
+                                                </span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                    <li class="chapter-end">&nbsp;</li>
+                                </ul>
+                            </td>
+                            <td id="column-lang-{{ lang_code }}" class="column col-lang-{{ lang_code }} col-visible-1">
+
+                                <div class="column-header">
+                                    <input id="cb-{{ lang_code }}"
+                                           type="checkbox"
+                                           name="{{ lang_code }}"
+                                           checked=""
+                                           data-lang-code="{{ lang_code }}"
+                                           data-request-uri="{{ app.request.requestUri }}"
+                                           class="disable-lang"
+                                    >
+                                    <label for="cb-{{ lang_code }}" class="lang-label">
+                                        <span class="masha_index masha_index31" rel="#"></span>
+                                        {{ translation.lang_title }}
+                                    </label>
+                                </div>
+
+                                <ul id="list-verses-{{ lang_code }}" class="verses lang-{{ lang_code }} ">
+
+                                    {% if verses is iterable %}
+                                        {% for verse in verses %}
+                                            <li data-trid="1" class="verse verse-xx visible-1 line-1 fullview-1">
+                                                <div class="verse-inner" bis_skin_checked="1">
+                                                <span class="masha_index masha_index{{ verse.code }}"
+                                                      rel="{{ verse.code }}">
+                                                </span>
+                                                    {{ verse.text | raw }}
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            </table>
+
+            <div class="nav-chapters-2" style="padding-right: 0 !important; width: 300px; text-align: center;">
+                <div class="prev-chap">
+                    &nbsp;
+                </div>
+
+                <div class="next-chap">
+                    <a href="/biblia/?Gen.2&amp;k" title="Быт.2">
+                        <span class="masha_index masha_index78" rel="78"></span>
+                        Следующая ▶
+                    </a>
+                </div>
+            </div>
+            <div class="divider"><img src="https://azbyka.ru/biblia/img/long_dividers3.svg" alt=""></div>
+
+            {% include 'front/partials/common/footer.html.twig' %}
+
+            <a href="https://azbyka.ru/biblia/?mobile" id="lnk_mobile" class="btn-link f-arial fs11pt"
+               style="display: none;"><span class="masha_index masha_index97" rel="97"></span>Мобильная версия сайта</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block book_audio_tray %}
+    {% include 'front/partials/book/book_audio_tray.html.twig' %}
+{% endblock %}

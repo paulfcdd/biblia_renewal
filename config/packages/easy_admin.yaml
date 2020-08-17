@@ -1,0 +1,69 @@
+easy_admin:
+    design:
+        form_theme:
+            - '@EasyAdmin/form/bootstrap_4.html.twig'
+        menu:
+            - Lang
+            - label: 'Содержание'
+              children: ['BookGroup']
+            - User
+    entities:
+        BookGroup:
+            class: App\Entity\BookGroup
+            label: 'Разделы'
+            disabled_actions: ['new', 'delete']
+            templates:
+                edit: 'admin/book_group_edit_page.html.twig'
+            list:
+                fields:
+                    - { property: 'title', label: 'Название книги' }
+                    - { property: 'books', label: 'Кол-во книг' }
+                    - { property: 'section', label: 'Завет' }
+            edit:
+                fields:
+                    - { property: 'title', label: 'Название книги' }
+
+        Lang:
+            class: App\Entity\Lang
+            controller: App\Controller\Admin\LangAdminController
+            label: 'Языки'
+            disabled_actions: ['new', 'delete']
+            list:
+                fields:
+                    - { property: 'title', label: 'Название языка' }
+                    - { property: 'isoCode', label: 'Код языка ISO' }
+                    - { property: 'nativeTitle', label: 'Название в меню' }
+                    - { property: 'sortOrder', label: 'Порядок сортировки' }
+                    - { property: 'isActive', label: 'Активен', type: 'toggle' }
+                    - { property: 'isBlocked', label: 'Заблокирован', type: 'toggle' }
+            form:
+                fields:
+                    - { property: 'title', label: 'Название языка' }
+                    - { property: 'nativeTitle', label: 'Название в меню' }
+                    - { property: 'sortOrder', label: 'Порядок сортировки' }
+                    - { property: 'isActive', label: 'Активен', type: 'checkbox' }
+                    - { property: 'isBlocked', label: 'Заблокирован', type: 'checkbox' }
+
+        Book:
+            class: App\Entity\Book
+            label: Книги
+
+        User:
+            class: App\Entity\User
+            label: Пользователи
+            disabled_actions: ['delete']
+            list:
+                actions: ['show']
+                fields:
+                    - { property: 'id', label: 'ИД' }
+                    - { property: 'email', label: 'Email' }
+                    - { property: 'roles', label: 'Роль', type: 'array' }
+            show:
+                fields:
+                    - { property: 'id', label: 'ИД' }
+                    - { property: 'email', label: 'Email' }
+                    - { property: 'roles', label: 'Роль', type: 'array'}
+            edit:
+                fields:
+                    - { property: 'email', label: 'Email' }
+                    - { property: 'roles', label: 'Роль', type: collection}

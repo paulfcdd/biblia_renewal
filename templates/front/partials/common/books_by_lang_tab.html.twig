@@ -1,0 +1,10 @@
+{% set first_page = 1 %}
+
+
+{% for book in books %}
+    {% set link = generate_paginate_book_link(app.request.requestUri, first_page, book.slug) %}
+    <span class="group group-{{ book.bookGroupId }}">
+        <a href="{{ link }}" class="cloud-book-gen canonical-1"
+           title="{{ book.bookGroupTitle }}">{{ book.bookShortTitle }}.</a>
+    </span>
+{% endfor %}

@@ -1,0 +1,111 @@
+{% extends 'front/base.html.twig' %}
+{% set app_default_locale = app.request.locale %}
+
+{% block main_content_wrap %}
+
+    <div class="wrap main books-lang-r">
+    {% include 'front/partials/common/breadcrumbs.html.twig' %}
+    <div class="books-top">
+        <table class="buttons">
+            <tr>
+                <td class="l"><a href="https://azbyka.ru/audio/1/svyashhennoe-pisanie" class="audio-link">Аудиобиблия
+                        <img src="{{ asset('assets/img/audio.png') }}" alt="Аудиобиблия"></a></td>
+                <td class="c"><img src="{{ asset('assets/img/dividers_13.svg') }}" alt=""></td>
+                <td class="r">
+                    {% include 'front/partials/social_buttons.html.twig' %}
+                </td>
+            </tr>
+        </table>
+        <table class="title">
+            <tr>
+                <td class="l">
+                </td>
+                <td class="c">
+                    <h1>{{ header }}</h1>
+                </td>
+                <td class="r">
+                    <style>
+                        .login-container {
+                            width: 160px;
+                            position: relative;
+                            margin-right: 0;
+                            margin-left: auto;
+                            margin-top: 3px;
+                            text-align: center;
+
+                        }
+
+                        .login-container a {
+                            color: #18530B;
+                            font-size: 14px;
+                            cursor: pointer;
+                        }
+                    </style>
+                </td>
+            </tr>
+        </table>
+        <table class="lang-info">
+            <tr>
+                <td class="c">
+                    {{ languageList }}
+                </td>
+            </tr>
+        </table>
+        <table class="lang-info">
+            <tr>
+                <td class="l">
+                    {{ render_lang_selector(request_locale) | raw }}
+                </td>
+                <td class="c"></td>
+                <td class="r">
+                    <form id="biblia_search" class="form_search fm-speech" action="https://azbyka.ru/biblia/search"
+                          style="position: absolute;" role="search">
+                        <input class="inp_search search-form-field" type="search" name="q" id="fld_search" value=""
+                               placeholder="Текст или Ин.1:1">
+                        <input type="button" class="speech" style="display: inline-block;">
+                        <button type="submit" class="search-form-button" style="top: 0 !important;"></button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="book-links">
+        <table>
+            <tr>
+                <td class="col-old">
+                    <div class="part-header">
+                        {{ oldTestament }}
+                        <a href="#n3"
+                           title="Чтение Библии желательно начинать с Нового Завета, в условиях которого мы живём. Из Евангелий лучше начать с Евангелия по Марку, как самого краткого и доступного. К чтению Ветхого Завета правильно переходить только после изучения Нового.">
+                            ***
+                        </a>
+                    </div>
+                    {{ render_book_titles_by_testament_and_lang(oldTestamentType, langId, request_locale) | raw }}
+                </td>
+                <td class="col-new">
+                    <div class="part-header">
+                        {{ newTestament }}
+                    </div>
+                    {{ render_book_titles_by_testament_and_lang(newTestamentType, langId, request_locale) | raw }}
+                </td>
+            </tr>
+        </table>
+        <div class="notes">
+            <span id="n1" class="star">*</span> <a
+                href="https://azbyka.ru/nekanonicheskie-knigi-biblii">
+                {{ nonCanonical }}
+            </a><br>
+            <span id="nadpisanie" class="star">**</span>
+            См. о надписании в <a href="https://azbyka.ru/otechnik/Lopuhin/tolkovaja_biblija_51/1">Толковой Библии под
+                редакцией Лопухина</a> <br/>
+            <span id="n3" class="star">***</span> Чтение Библии желательно начинать с Нового Завета, в условиях которого
+            мы
+            живём. Из Евангелий лучше начать с Евангелия по Марку, как самого краткого и доступного. К чтению Ветхого
+            Завета
+            правильно переходить только после изучения Нового. <a href="https://azbyka.ru/1/duhovnoe_chtenie">См. "Как
+                читать Библию"</a>.
+        </div>
+        <div class="divider"><img src="{{ asset('assets/img/long_dividers3.svg') }}" alt=""></div>
+        {% include 'front/partials/common/footer.html.twig' %}
+    </div>
+{% endblock %}

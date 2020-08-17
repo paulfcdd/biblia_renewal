@@ -1,0 +1,21 @@
+.book-audio-tray {
+    background-color: #ffffff;
+    height: 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.book-audio-tray #audio-player {
+    margin:auto;
+    position: fixed;
+    bottom: 0;
+    width: 60%;
+    left: 25%;
+    height: inherit;
+    background-color: #f1e9d6;
+}
+
+.book-audio-tray #audio-player:focus {
+    outline: none;
+}

@@ -1,0 +1,43 @@
+<div class="col-md-12 col-lg-12" bis_skin_checked="1">
+    <div class="row nav-chapters-2 hidden-sm hidden-xs" style="width: 300px; text-align: center;" bis_skin_checked="1">
+
+        {% set previousPageLink = null %}
+        {% set nextPageLink = null %}
+
+        {% if previousPage is not null %}
+            {% set previousPageLink = generate_paginate_book_link(app.request.requestUri, previousPage, book.slug) %}
+        {% endif %}
+
+        {% if nextPage is not null %}
+            {% set nextPageLink = generate_paginate_book_link(app.request.requestUri, nextPage, book.slug) %}
+        {% endif %}
+
+        {% if chapterRange is defined and chapterRange is not null %}
+            {% set previousPageLink = generate_paginate_book_link(app.request.requestUri, chapterRange[0] - 1, book.slug) %}
+            {% set nextPageLink = generate_paginate_book_link(app.request.requestUri, chapterRange[1] + 1, book.slug) %}
+        {% endif %}
+
+        {% if chapterRange is not defined %}
+            {% if currentChapter != firstPage %}
+                <div class="prev-chap" bis_skin_checked="1">
+                    <a href="{{ previousPageLink }}" title="{{ book.abbreviation ~'.' ~ previousPage }}"><span
+                            class="masha_index masha_index197" rel="197"></span>
+                        ◀ Предыдущая
+                    </a>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {% if chapterRange is not defined %}
+            {% if chaptersCount != currentChapter %}
+                <div class="next-chap" bis_skin_checked="1">
+                    <a href="{{ nextPageLink }}" title="{{ book.abbreviation ~'.' ~ nextPage }}"><span
+                            class="masha_index masha_index198" rel="198"></span>
+                        Следующая ▶
+                    </a>
+                </div>
+            {% endif %}
+        {% endif %}
+
+    </div>
+</div>

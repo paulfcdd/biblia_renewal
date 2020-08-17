@@ -1,0 +1,6 @@
+dump:
+  _extension: '.sql'
+  testament: 'testaments'
+  book_groups: 'book_groups'
+settings:
+  locale: '%locale%'

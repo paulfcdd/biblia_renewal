@@ -1,0 +1,24 @@
+{% if book.bookAudioSource %}
+    <div class="sidebar-r">
+
+        {% block interpretations_block %}
+            {% include 'front/partials/book/interpretations_block.html.twig' %}
+        {% endblock %}
+
+        <br>
+
+        {% block interlinear_translation_button %}
+            {% include 'front/partials/book/interlinear_translation_button.html.twig' %}
+        {% endblock %}
+
+        {% block lang_table %}
+            {{ render_lang_table(book) | raw }}
+        {% endblock %}
+
+        {% block play_audio_button %}
+            {% if book.bookAudioSource is not null %}
+                {% include 'front/partials/book/play_audio_button.html.twig' %}
+            {% endif %}
+        {% endblock %}
+    </div>
+{% endif %}

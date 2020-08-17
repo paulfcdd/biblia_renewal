@@ -1,0 +1,35 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+{% set app_default_locale = app.request.locale %}
+{% set request_lang_code = app.request.query.get('code') %}
+
+{% block content_title %}
+    {{ app.request.query.get('id') | book_group_title }}
+{% endblock %}
+
+{% block main %}
+    {% block entity_form %}
+
+        {% if request_lang_code is null %}
+            {% set langCode = app_default_locale %}
+            {% else %}
+            {% set langCode = request_lang_code %}
+        {% endif %}
+
+        {% include 'admin/partials/lang_tabs.html.twig' %}
+        {% include 'admin/flash_messages/success_message.html.twig' %}
+        {% include 'admin/flash_messages/error_message.html.twig' %}
+
+        {{ render(controller(
+            'App\\Controller\\Admin\\BookGroupAdminController::renderBookGroupTitleForm', {
+                bookGroupId: app.request.query.get('id'),
+                langCode: langCode
+            }
+        )) }}
+    {% endblock entity_form %}
+
+{% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+{% endblock %}

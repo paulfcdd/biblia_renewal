@@ -1,0 +1,5 @@
+App\Entity\User:
+  properties:
+    email:
+      - Email:
+          message: invalid email

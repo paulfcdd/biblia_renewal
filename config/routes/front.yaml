@@ -1,0 +1,13 @@
+front.index:
+#  path: /{_locale}
+  path: /
+  controller: App\Controller\Front\FrontController::indexPage
+#  defaults:
+#    _locale: '%locale%'
+
+#font.book_content:
+#  path: /{_locale}/{urlTitle}/{chapterNumber}
+#  controller: App\Controller\Front\FrontController::bookContentPage
+#  defaults:
+#    _locale: '%locale%'
+#    chapterNumber: 1

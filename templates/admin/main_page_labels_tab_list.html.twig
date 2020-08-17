@@ -1,0 +1,86 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% set entity = app.request.query.get('entity') %}
+{% set app_default_locale = app.request.locale %}
+{% set request_lang_code = app.request.query.get('code') %}
+
+ {% if request_lang_code is null %}
+     {% set translations = get_translations_for_language(entity, 'r') %}
+ {% else %}
+     {% set translations = get_translations_for_language(entity, request_lang_code) %}
+ {% endif %}
+
+{% block content_title %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    {% include 'admin/partials/lang_tabs.html.twig' %}
+    {% include 'admin/flash_messages/success_message.html.twig' %}
+    {% include 'admin/flash_messages/error_message.html.twig' %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Код перевода</th>
+            <th>Перевод</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for translation in translations %}
+            <tr>
+                <td>{{ translation.code }}</td>
+                <td>
+                    <input type="text"
+                           name="translation-title"
+                           id="translation-title-{{ translation.id }}"
+                           class="form-control translation-title" value="{{ translation.title }}"
+                           data-id="{{ translation.id }}"
+                           data-langid="{{ translation.lang.id }}"
+                    >
+                </td>
+                <td>
+                    <button class="btn btn-success save-translation"
+                            data-translationid="{{ translation.id }}"
+                            data-langid="{{ translation.lang.id }}"
+                            data-url="{{ path('save_main_page_label_translation', {
+                                'mainPageLabel': translation.id
+                            }) }}"
+                    >Записать
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        $('.save-translation').on('click', function (e) {
+            let translationId = $(this).data('translationid');
+            let langId = $(this).data('langid');
+            let translationTitle = $('#translation-title-' + translationId).val();
+            let url = $(this).data('url');
+
+            $.ajax({
+                url: url,
+                method: 'post',
+                data: {
+                    translated_title: translationTitle,
+                    lang_id: langId
+                },
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function (data) {
+                    window.location.reload();
+                }
+            })
+
+        })
+    </script>
+
+{% endblock %}
+
+{% block content_footer %}
+{% endblock %}

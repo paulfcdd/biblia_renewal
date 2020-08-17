@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="og:image" content="img/apple-touch-biblia.png">
+    <meta name="csrf-token" content="SlzxuEm5gNglk1oHv46fGun4XQqDy7cgZpIia2EL">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <title> {% if title is defined %}{{ title }}{% else %}{{ 'defalt_page_title' | trans }}{% endif %}</title>
+    {#    <title>Библия | Читать, скачать Новый Завет, Ветхий Завет</title>#}
+    <meta name="description" content="Библия, Новый Завет, Ветхий Завет на английском, арабском, белорусском,
+    еврейском,  киргизском, латинском, немецком, таджикском, татарском, узбекском, украинском, французском языках. В переводах: синодальном, Аверинцева. Псалтирь Юнгерова, Бируковых.">
+    <link rel="stylesheet" href="https://cdn.azbyka.ru/biblia/mix/bootstrap.css?93hkbh">
+    <link rel="stylesheet" href="https://cdn.azbyka.ru/biblia/mix/pc.css?93hkbh">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/custom.css') }}">
+    {% block custom_css %}{% endblock %}
+
+    <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
+    <script defer src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+{#    <script src="{{ asset('assets/js/pc.js') }}"></script>#}
+    <script>
+        $(function () {
+            $('#all-lang').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#biblia_search').hide();
+                    $('#yandex_search').show();
+                } else {
+                    $('#biblia_search').show();
+                    $('#yandex_search').hide();
+                }
+            });
+        });
+    </script>
+    <script defer src="{{ asset('assets/js/stati.js') }}"></script>
+    <!--[if lte IE 8]>
+    <script>window.location.href = '//azbyka.ru/design/noie.htm';</script><![endif]-->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WMXMJHJ');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WMXMJHJ"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div style="text-align: center;">
+    <input id="main-menu-state" type="checkbox"/>
+    <label class="main-menu-btn" for="main-menu-state">
+        <span class="main-menu-btn-icon"></span> Toggle main menu visibility
+    </label>
+    {% include 'front/partials/top_page_navigation.html.twig' %}
+</div>
+<script src="{{ asset('assets/js/jquery.smartmenus.js') }}"></script>
+<script>
+    $(function () {
+        $('#main-menu').smartmenus({
+            subMenusSubOffsetX: 1,
+            subMenusSubOffsetY: -8
+        });
+        var $mainMenuState = $('#main-menu-state');
+        if ($mainMenuState.length) {
+            $mainMenuState.change(function (e) {
+                var $menu = $('#main-menu');
+                if (this.checked) {
+                    $menu.hide().slideDown(250, function () {
+                        $menu.css('display', 'block');
+                    });
+                    $('#bookmarks').hide();
+                } else {
+                    $menu.show().slideUp(250, function () {
+                        $menu.css('display', 'none');
+                    });
+                    $('#bookmarks').show();
+                }
+            });
+        }
+    });
+</script>
+
+{% block header %}{% endblock %}
+{% block main_content_wrap %}{% endblock %}
+{% block book_content_wrap %}{% endblock %}
+{% block book_audio_tray %}{% endblock %}
+<script src="{{ asset('assets/js/book-multiple-translation.js') }}"></script>
+{#<script>#}
+{#    $(document).ready(function () {#}
+{#        $('.fm-speech').speech();#}
+{#    });#}
+{#</script>#}
+<script>
+    $(function() {
+        $('#all-lang').change(function() {
+            if ($(this).is(':checked')) {
+                $('#biblia_search').hide();
+                $('#yandex_search').show();
+            } else {
+                $('#biblia_search').show();
+                $('#yandex_search').hide();
+            }
+        });
+    });
+</script>
+{% block custom_js %}{% endblock %}
+</body>
+</html>

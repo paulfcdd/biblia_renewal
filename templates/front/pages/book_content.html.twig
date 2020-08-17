@@ -1,0 +1,84 @@
+{% extends 'front/base.html.twig' %}
+
+{% block custom_css %}
+    <link href="{{ asset('assets/css/book-content-header-icons.css') }}" type="text/css" rel="stylesheet">
+    {% if book.bookAudioSource is not null %}
+        <link href="{{ asset('assets/css/book-audio-tray.css') }}" type="text/css" rel="stylesheet">
+    {% endif %}
+{% endblock %}
+
+{% block header %}
+    {% include 'front/partials/book/book_content_header.html.twig' %}
+{% endblock %}
+
+{% block book_content_wrap %}
+    <div class="wrap book-layout book-bool_url_title">
+        {% block right_sidebar %}
+            {% include 'front/partials/book/right_sidebar.html.twig' %}
+        {% endblock %}
+        <div id="content" class="content">
+            <table id="tbl_content">
+                <tbody>
+                {% for key, value in verses %}
+                    {% set verseKey = key + 1 %}
+                    <tr>
+                        <td class="col-numbers numbers number line-xx visible-1 fullview-1">
+                            {% if verseKey == 1 %}
+                                <div class="numbers-header" style="position: relative;">
+                                    &nbsp;
+                                </div>
+                            {% endif %}
+                            <span class="verse-fullnumber">
+                                {% if value.chapter_number is defined %}{{ value.chapter_number }}{% else %}{{ currentChapter }}{% endif %}:{% if value.verse_number is defined %}{{ value.verse_number }}{% else %}{{ verseKey }}{% endif %}
+                            </span>
+                        </td>
+                        <td id="column-lang-k" class="column col-lang-k col-visible-1">
+
+                            {% if verseKey == 1 %}
+                                <div class="column-header">
+                                    <input id="cb-{{ lang.urlSlugCode }}" type="checkbox" name="{{ lang.urlSlugCode }}" checked="">
+                                    <label for="cb-{{ lang.urlSlugCode }}" class="lang-label">
+                                        <span class="masha_index masha_index31" rel="#"></span>
+                                        {{ lang.title }}
+                                    </label>
+                                </div>
+                            {% endif %}
+
+                            <div class="verses lang-{{ locale }}" style="background: #f8ffe8;">
+                                <div class="verse verse-xx visible-1 line-0 fullview-1">
+                                    <div class="verse-inner">
+                                        <span class="masha_index masha_index33" rel="#"></span>
+                                        {{ value.text | raw }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% include 'front/partials/book/page_navigation_buttons.html.twig' %}
+
+            <div class="divider"><img src="https://azbyka.ru/biblia/img/long_dividers3.svg" alt=""></div>
+
+            {% include 'front/partials/common/footer.html.twig' %}
+
+            <a href="https://azbyka.ru/biblia/?mobile" id="lnk_mobile" class="btn-link f-arial fs11pt"
+               style="display: none;"><span class="masha_index masha_index97" rel="97"></span>Мобильная версия сайта</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block book_audio_tray %}
+    {% if book.bookAudioSource is not null %}
+        {% include 'front/partials/book/book_audio_tray.html.twig' %}
+    {% endif %}
+{% endblock %}
+
+{% block custom_js %}
+    {% if book.bookAudioSource is not null %}
+        <script src="{{ asset('assets/js/book-audio-tray.js') }}"></script>
+    {% endif %}
+{% endblock %}

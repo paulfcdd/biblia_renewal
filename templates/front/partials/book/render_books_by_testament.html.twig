@@ -1,0 +1,42 @@
+{% set first_page = 1 %}
+
+{% for bookGroup in books_groups_by_testament %}
+    {% set langId = bookGroup.langId %}
+    {% set bookGroupId = bookGroup.bookGroupId %}
+    {% set bookTitles = get_book_titles_by_lang_and_book_group(langId, bookGroupId) %}
+
+    {% if bookTitles | length != 0 %}
+
+        {% if testament_type == 2 %}
+            <i class="index_books">{{ bookGroup.title }}</i>
+            {% for key, bookTitle in bookTitles %}
+                {% if bookTitle.slug is defined %}
+                    {% set link = generate_book_link(path('front.index'), bookTitle.slug, first_page, request_locale) %}
+                    • <a href="{{ link }}">{{ bookTitle.title }}</a>{% if bookTitle.hint %}{{ bookTitle.hint | raw }}{% endif %}
+                    {% if bookGroup.code != 'moses5Books' %}<br/>{% endif %}
+                {% else %}
+                    • {% if bookGroup.code == 'prophetsBooks' and key == 'books' %}<b>Книги пророков: </b>{% endif %}
+                    {% for bookTitleItem in bookTitle %}
+                        {% set link = generate_book_link(path('front.index'), bookTitleItem.slug, first_page, request_locale) %}
+                        {% if (bookTitleItem.abbreviation|first|number_format > 1) %}, {% elseif loop.index0 > 0 %} · {% endif %}
+                        <a href="{{ link }}">{{ bookTitleItem.title }}</a>{% if bookTitleItem.hint %}{{ bookTitleItem.hint | raw }}{% endif %}
+                    {% endfor %}
+                    <br/>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% if testament_type == 1 %}
+            <i class="index_books">{{ bookGroup.title }}</i>
+            {% apply spaceless %}
+                {% for bookTitle in bookTitles %}
+                    {% set link = generate_book_link(path('front.index'), bookTitle.slug, first_page, request_locale) %}
+                    {% if (bookTitle.abbreviation|first|number_format < 2) %}{% if loop.index0 != 0 %}
+                        <br/>{% endif %} • {% else %}, {% endif %}<a href="{{ link }}">{{ bookTitle.title }}</a>
+                    {% if bookTitle.hint %}{{ bookTitle.hint | raw }}{% endif %}
+                {% endfor %}
+            {% endapply %}
+        {% endif %}
+    {% endif %}
+
+{% endfor %}

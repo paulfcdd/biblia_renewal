@@ -1,0 +1,75 @@
+version: '3'
+services:
+
+  sf_app:
+    build:
+      context: ./docker/
+      dockerfile: Dockerfile
+    environment:
+      XDEBUG_CONFIG: "remote_host=172.20.0.8 remote_port=9000 remote_enable=1"
+    volumes:
+      - ./:/var/www/html
+    links:
+      - mariadb
+      - pma
+      - adminer
+    networks:
+      default:
+        ipv4_address: 172.20.0.8
+
+#  old_app:
+#    build:
+#      context: ./_old_site/docker
+#      dockerfile: Dockerfile
+#    environment:
+#      XDEBUG_CONFIG: "remote_host=172.20.0.9 remote_port=9000 remote_enable=1"
+#    volumes:
+#      - ./_old_site/:/var/www/html
+#    links:
+#      - mariadb
+#      - pma
+#    networks:
+#      default:
+#        ipv4_address: 172.20.0.9
+
+  mariadb:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ./project_database:/docker-entrypoint-initdb.d
+      - .database_volume:/var/lib/mysql
+
+  adminer:
+    image: adminer:latest
+    ports:
+    - 8080:8080
+    networks:
+      default:
+        ipv4_address: 172.20.0.4
+
+  pma:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mariadb
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: mysql
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+    networks:
+      default:
+          ipv4_address: 172.20.0.3
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+##################################################
+volumes:
+  database_volume:
+  sf_app:

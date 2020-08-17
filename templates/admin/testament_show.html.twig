@@ -1,0 +1,30 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+{% block show_fields %}
+    {% set _fields_visible_by_user = fields|filter((metadata, field) => easyadmin_is_granted(metadata.permission)) %}
+
+{#    {{ dump(_fields_visible_by_user) }}#}
+
+    {% for field, metadata in _fields_visible_by_user %}
+
+        {% block show_field %}
+
+            <div class="form-group field-{{ metadata.type|default('default')|lower }} {{ metadata.css_class|default('') }}">
+                <label class="control-label">
+                    {{ metadata.label|trans(_trans_parameters)|raw }}
+                </label>
+                <div class="form-widget">
+                    <div class="form-control">
+                        {{ easyadmin_render_field_for_show_view(_entity_config.name, entity, metadata) }}
+                    </div>
+
+                    {% if metadata.help|default('') != '' %}
+                        <small class="form-help"><i class="fa fa-fw fa-info-circle"></i> {{ metadata.help|trans|raw }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+        {% endblock %}
+    {% endfor %}
+
+{% endblock %}

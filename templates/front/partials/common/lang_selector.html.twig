@@ -1,0 +1,6 @@
+<select onchange="location = options[selectedIndex].value" style="width: 190px; height: 25px;">
+    <option disabled selected>{{ 'lang_selector_label' | trans }}</option>
+    {% for lang in langs %}
+        <option value="{{ path('front.index') ~ '?' ~ lang.urlSlugCode }}" {% if lang.urlSlugCode == request_locale %}selected{% endif %}>{{ lang.nativeTitle }}</option>
+    {% endfor %}
+</select>

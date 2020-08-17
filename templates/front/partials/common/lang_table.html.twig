@@ -1,0 +1,15 @@
+<ul class="langs">
+    <li class="interpret_header">Добавить языки</li>
+    {% for lang in langs %}
+        {% if lang.urlSlugCode not in app.request.requestUri %}
+            <li id="lang-{{ lang.urlSlugCode }}" class="lang-link lang-visible-0">
+                <a href="#" class="load-translation"
+                   data-request-uri="{{ app.request.requestUri }}"
+                   data-lang-code="{{ lang.urlSlugCode }}"
+                   data-lang-id="{{ lang.id }}">
+                    {{ lang.title }}
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>

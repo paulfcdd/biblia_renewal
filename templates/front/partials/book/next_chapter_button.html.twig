@@ -1,0 +1,40 @@
+{% if previousPage is not null %}
+    {% set previousPageLink = generate_paginate_book_link(app.request.requestUri, previousPage, book.slug) %}
+{% endif %}
+
+{% if nextPage is not null %}
+    {% set nextPageLink = generate_paginate_book_link(app.request.requestUri, nextPage, book.slug) %}
+{% endif %}
+
+{% if chapterRange is defined and chapterRange is not null %}
+    {% set previousPageLink = generate_paginate_book_link(app.request.requestUri, chapterRange[0] - 1, book.slug) %}
+    {% set nextPageLink = generate_paginate_book_link(app.request.requestUri, chapterRange[1] + 1, book.slug) %}
+{% endif %}
+
+<div class="h1">
+    <h1>
+        {% if chapterRange is not defined %}
+            <div class="prev-chap">
+                {% if currentChapter != firstPage %}
+                    <a href="{{ previousPageLink }}" title="{{ book.abbreviation ~'.' ~ previousPage }}">
+                        ◀
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <a href="{{ generate_book_link_with_chapter_range(chaptersCount, app.request.requestUri) }}">
+            {{ book.title }}
+        </a>
+
+        {% if chapterRange is not defined %}
+            <div class="next-chap">
+                {% if chaptersCount != currentChapter %}
+                    <a href="{{ nextPageLink }}" title="{{ book.abbreviation ~'.' ~ nextPage }}">
+                        ▶
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </h1>
+</div>

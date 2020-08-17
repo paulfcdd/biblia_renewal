@@ -1,0 +1,13 @@
+.login-form-wrapper form {
+    width: 50%;
+    margin: 0 auto;
+    padding: 5em 0;
+}
+
+.login-form-wrapper form button.login-button {
+    margin: 1em 0;
+}
+
+.header h1 {
+    padding: 0;
+}
